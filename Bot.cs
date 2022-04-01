@@ -40,21 +40,17 @@ namespace KianaCord
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
 
-            client.Connected += Client_Connected;
-            client.Log += Client_Log;
+            client.JoinedGuild += Client_JoinedGuild;
 
             await Task.Delay(-1);
         }
 
-        private Task Client_Log(LogMessage arg)
+        private Task Client_JoinedGuild(SocketGuild arg)
         {
-            Console.WriteLine($"{arg.Message}");
-            return Task.CompletedTask;
-        }
+            foreach (var textChannel in arg.TextChannels)
+                textChannel.SendMessageAsync($"OHAYO!!! MY NAME IS {client.CurrentUser.Username}\nNICE TO MEET YOU ALL!!! OWO!!!");
 
-        private Task Client_Connected()
-        {
-            client.GetGuild(959414997321134080).GetTextChannel(959414997321134084).SendMessageAsync("am not ready for some chaos yet!!!\nwe need few minutes");
+
             return Task.CompletedTask;
         }
 
